@@ -1,3 +1,5 @@
+#Authors: Owen Brock, Serina Oswalt
+
 import heapq
 from dataclasses import dataclass, field
 from typing import List, Tuple, Dict, Optional, Set
@@ -34,7 +36,7 @@ def print_state(state: State) -> None:
 
 def find_blank(state: State) -> Tuple[int, int]:
     idx = state.index(0)
-    return divmod(idx, 3)  # (row, col)
+    return divmod(idx, 3)  # row and col
 
 def neighbors(state: State) -> List[Tuple[State, str]]:
     br, bc = find_blank(state)
@@ -50,11 +52,11 @@ def neighbors(state: State) -> List[Tuple[State, str]]:
     return out
 
 def misplaced_tiles(state: State, goal: State) -> int:
-    # Count tiles out of place excluding blank
+    # Count tiles that are out of place excluding blank
     return sum(1 for i in range(9) if state[i] != 0 and state[i] != goal[i])
 
 def manhattan_distance(state: State, goal: State) -> int:
-    # Precompute goal positions
+    # Precompute the goal positions
     goal_pos = {}
     for i, tile in enumerate(goal):
         goal_pos[tile] = (i // 3, i % 3)
@@ -151,7 +153,7 @@ def a_star(
         current_item = heapq.heappop(open_heap)
         current = current_item.state
 
-        # Skip stale entries (classic priority-queue A* pattern)
+        # skip stale entries 
         if current_item.g != g_score.get(current, float("inf")):
             continue
 
